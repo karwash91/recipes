@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      BUCKET_NAME: recipes-frontend-f3df
+      BUCKET_NAME: recipes-frontend-f91b9d22
       REGION: us-east-1
 
     steps:
