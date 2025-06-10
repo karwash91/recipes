@@ -22,7 +22,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Submit a Recipe</h1>
+      <h1>Submit a New Recipe</h1>
       <form onSubmit={handleSubmit}>
         <input name="name" type="text" autoComplete="on" placeholder="Recipe name" onChange={handleChange} required />
         <textarea name="ingredients" placeholder="Ingredients" onChange={handleChange} required />
