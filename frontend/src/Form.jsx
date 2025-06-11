@@ -1,6 +1,5 @@
 import { useAuth } from 'react-oidc-context';
 import React, { useState } from 'react';
-import './App.css';
 
 function SubmitForm() {
   const [form, setForm] = useState({
@@ -25,10 +24,6 @@ function SubmitForm() {
 
   return (
     <div className="App">
-      <div style={{ textAlign: 'right' }}>
-        <p>Hello, {auth.user?.profile?.email || 'User'}!</p>
-        <button onClick={() => auth.signoutRedirect()}>Sign out</button>
-      </div>
       <h1>Submit a New Recipe</h1>
       <form onSubmit={handleSubmit}>
         <input name="name" type="text" autoComplete="on" placeholder="Recipe name" onChange={handleChange} required />

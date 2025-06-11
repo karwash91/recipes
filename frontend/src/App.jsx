@@ -2,6 +2,7 @@
 
 import { useAuth } from "react-oidc-context";
 import Form from './Form';
+import './App.css';
 
 function App() {
   const auth = useAuth();
@@ -23,8 +24,8 @@ function App() {
 
   if (auth.isAuthenticated) {
     return (
-      <div>
-        <pre> Hello: {auth.user?.profile.email} </pre>
+      <div className="App">
+        <pre> Hello: {auth.user?.profile.name} </pre>
         <pre> ID Token: {auth.user?.id_token} </pre>
         <pre> Access Token: {auth.user?.access_token} </pre>
         <pre> Refresh Token: {auth.user?.refresh_token} </pre>
@@ -35,7 +36,7 @@ function App() {
   }
 
   return (
-    <div>
+    <div className="App">
       <button onClick={() => auth.signinRedirect()}>Sign in</button>
       <button onClick={() => signOutRedirect()}>Sign out</button>
     </div>
