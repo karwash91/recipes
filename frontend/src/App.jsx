@@ -1,6 +1,7 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import Form from './Form';
+// App.js
+
 import { useAuth } from "react-oidc-context";
+import Form from './Form';
 
 function App() {
   const auth = useAuth();
@@ -12,33 +13,33 @@ function App() {
     window.location.href = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(logoutUri)}`;
   };
 
+  if (auth.isLoading) {
+    return <div>Loading...</div>;
+  }
+
   if (auth.error) {
     return <div>Encountering error... {auth.error.message}</div>;
   }
 
   if (auth.isAuthenticated) {
     return (
-      <BrowserRouter>
-        <Routes>
-          <Route path="/submit" element={
-            <div>
-              <pre> Hello: {auth.user?.profile.email} </pre>
-              <pre> ID Token: {auth.user?.id_token} </pre>
-              <pre> Access Token: {auth.user?.access_token} </pre>
-              <pre> Refresh Token: {auth.user?.refresh_token} </pre>
-
-              <button onClick={() => signOutRedirect()}>Sign out</button>
-              <Form />
-            </div>
-          } />
-          <Route path="*" element={<Navigate to="/submit" />} />
-        </Routes>
-      </BrowserRouter>
+      <div>
+        <pre> Hello: {auth.user?.profile.email} </pre>
+        <pre> ID Token: {auth.user?.id_token} </pre>
+        <pre> Access Token: {auth.user?.access_token} </pre>
+        <pre> Refresh Token: {auth.user?.refresh_token} </pre>
+        <Form/>
+        <button onClick={() => auth.removeUser()}>Sign out</button>
+      </div>
     );
   }
 
-  auth.signinRedirect();
-  return <div>Redirecting to sign in...</div>;
+  return (
+    <div>
+      <button onClick={() => auth.signinRedirect()}>Sign in</button>
+      <button onClick={() => signOutRedirect()}>Sign out</button>
+    </div>
+  );
 }
 
 export default App;
