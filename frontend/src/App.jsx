@@ -1,38 +1,44 @@
-import React, { useState } from 'react';
-import './App.css';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import Form from './Form';
+import { useAuth } from "react-oidc-context";
 
 function App() {
-  const [form, setForm] = useState({
-    name: '',
-    ingredients: '',
-    steps: '',
-    author: '',
-    tags: ''
-  });
+  const auth = useAuth();
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+  const signOutRedirect = () => {
+    const clientId = "4r9cfc0m1dh4b9dje8i95uksqo";
+    const logoutUri = "https://d19o6330lu6a6h.cloudfront.net";
+    const cognitoDomain = "https://us-east-1myf3tzsqx.auth.us-east-1.amazoncognito.com";
+    window.location.href = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(logoutUri)}`;
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    alert('Recipe submitted!\n\n' + JSON.stringify(form, null, 2));
-    // In a later step, this will send the data to the API Gateway endpoint
-  };
+  if (auth.error) {
+    return <div>Encountering error... {auth.error.message}</div>;
+  }
 
-  return (
-    <div className="App">
-      <h1>Submit a New Recipe</h1>
-      <form onSubmit={handleSubmit}>
-        <input name="name" type="text" autoComplete="on" placeholder="Recipe name" onChange={handleChange} required />
-        <textarea name="ingredients" placeholder="Ingredients" onChange={handleChange} required />
-        <textarea name="steps" placeholder="Steps" onChange={handleChange} required />
-        <input name="author" type="text" placeholder="Author" onChange={handleChange} required />
-        <input name="tags" type="text" placeholder="Tags" onChange={handleChange} />
-        <button type="submit">Submit</button>
-      </form>
-    </div>
-  );
+  if (auth.isAuthenticated) {
+    return (
+      <BrowserRouter>
+        <Routes>
+          <Route path="/submit" element={
+            <div>
+              <pre> Hello: {auth.user?.profile.email} </pre>
+              <pre> ID Token: {auth.user?.id_token} </pre>
+              <pre> Access Token: {auth.user?.access_token} </pre>
+              <pre> Refresh Token: {auth.user?.refresh_token} </pre>
+
+              <button onClick={() => signOutRedirect()}>Sign out</button>
+              <Form />
+            </div>
+          } />
+          <Route path="*" element={<Navigate to="/submit" />} />
+        </Routes>
+      </BrowserRouter>
+    );
+  }
+
+  auth.signinRedirect();
+  return <div>Redirecting to sign in...</div>;
 }
 
 export default App;
