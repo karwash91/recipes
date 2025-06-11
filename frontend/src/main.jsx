@@ -8,7 +8,7 @@ const cognitoAuthConfig = {
   client_id: "4r9cfc0m1dh4b9dje8i95uksqo",
   redirect_uri: "https://d19o6330lu6a6h.cloudfront.net/",
   response_type: "code",
-  scope: "email openid phone",
+  scope: 'openid email profile',
 };
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
