@@ -26,7 +26,6 @@ function App() {
     return (
       <>
         <Form />
-        <button onClick={() => auth.removeUser()}>Sign out</button>
       </>
     );
   }

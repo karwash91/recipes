@@ -27,12 +27,15 @@ function SubmitForm() {
       <h1>Submit a New Recipe</h1>
       <p> Hello, {auth.user?.profile.name} </p>
       <form onSubmit={handleSubmit}>
+        <div>
         <input name="name" type="text" autoComplete="on" placeholder="Recipe name" onChange={handleChange} required />
         <textarea name="ingredients" placeholder="Ingredients" onChange={handleChange} required />
         <textarea name="steps" placeholder="Steps" onChange={handleChange} required />
         <input name="author" type="text" placeholder="Author" onChange={handleChange} required />
         <input name="tags" type="text" placeholder="Tags" onChange={handleChange} />
         <button type="submit">Submit</button>
+        <button onClick={() => auth.removeUser()}>Sign out</button>
+        </div>
       </form>
     </div>
   );
