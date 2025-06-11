@@ -3,11 +3,8 @@ import React, { useState } from 'react';
 
 function SubmitForm() {
   const [form, setForm] = useState({
-    name: '',
-    ingredients: '',
-    steps: '',
-    author: '',
-    tags: ''
+    title: '',
+    ingredients: ''
   });
 
   const auth = useAuth();
@@ -16,10 +13,33 @@ function SubmitForm() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert('Recipe submitted!\n\n' + JSON.stringify(form, null, 2));
-    // In a later step, this will send the data to the API Gateway endpoint
+
+    const payload = {
+      title: form.name,
+      ingredients: form.ingredients,
+    };
+
+    try {
+      const res = await fetch('https://6dcafcvjfb.execute-api.us-east-1.amazonaws.com/prod/recipes', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        throw new Error(`Failed to submit: ${res.status}`);
+      }
+
+      alert('Recipe submitted successfully!');
+      setForm({ name: '', ingredients: '' });
+    } catch (err) {
+      console.error(err);
+      alert('Submission failed');
+    }
   };
 
   return (
@@ -28,13 +48,10 @@ function SubmitForm() {
       <p> Hello, {auth.user?.profile.name} </p>
       <form onSubmit={handleSubmit}>
         <div>
-        <input name="name" type="text" autoComplete="on" placeholder="Recipe name" onChange={handleChange} required />
-        <textarea name="ingredients" placeholder="Ingredients" onChange={handleChange} required />
-        <textarea name="steps" placeholder="Steps" onChange={handleChange} required />
-        <input name="author" type="text" placeholder="Author" onChange={handleChange} required />
-        <input name="tags" type="text" placeholder="Tags" onChange={handleChange} />
-        <button type="submit">Submit</button>
-        <button onClick={() => auth.removeUser()}>Sign out</button>
+          <input name="title" type="text" autoComplete="on" placeholder="Recipe title" onChange={handleChange} required />
+          <textarea name="ingredients" placeholder="Ingredients (comma or newline separated)" onChange={handleChange} required />
+          <button type="submit">Submit</button>
+          <button onClick={() => auth.removeUser()}>Sign out</button>
         </div>
       </form>
     </div>
