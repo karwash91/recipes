@@ -41,6 +41,6 @@ button {
     font-size: medium;
 }
 
-button + button, input + input, select + select, textarea + textarea, text + text { 
+button + button, input + input, select + select, textarea + textarea, text + text, input + button, input + textarea, textarea + input  { 
     margin-top: 20px;
 }
