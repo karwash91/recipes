@@ -17,7 +17,7 @@ function SubmitForm() {
     e.preventDefault();
 
     const payload = {
-      title: form.name,
+      title: form.title,
       ingredients: form.ingredients,
     };
 
@@ -44,7 +44,7 @@ function SubmitForm() {
 
   return (
     <div className="App">
-      <h1>Submit a New Recipe</h1>
+      <h1>Submit a Recipe</h1>
       <p> Hello, {auth.user?.profile.name} </p>
       <form onSubmit={handleSubmit}>
         <div>
