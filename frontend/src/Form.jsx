@@ -25,6 +25,7 @@ function SubmitForm() {
   return (
     <div className="App">
       <h1>Submit a New Recipe</h1>
+      <p> Hello, {auth.user?.profile.name} </p>
       <form onSubmit={handleSubmit}>
         <input name="name" type="text" autoComplete="on" placeholder="Recipe name" onChange={handleChange} required />
         <textarea name="ingredients" placeholder="Ingredients" onChange={handleChange} required />

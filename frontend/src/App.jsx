@@ -24,14 +24,10 @@ function App() {
 
   if (auth.isAuthenticated) {
     return (
-      <div className="App">
-        <pre> Hello: {auth.user?.profile.name} </pre>
-        <pre> ID Token: {auth.user?.id_token} </pre>
-        <pre> Access Token: {auth.user?.access_token} </pre>
-        <pre> Refresh Token: {auth.user?.refresh_token} </pre>
-        <Form/>
+      <>
+        <Form />
         <button onClick={() => auth.removeUser()}>Sign out</button>
-      </div>
+      </>
     );
   }
 
